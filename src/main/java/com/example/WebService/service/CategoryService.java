@@ -1,6 +1,7 @@
 package com.example.WebService.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,17 +38,15 @@ public class CategoryService {
     }
 
     // Modification d'une catégorie
-
-    public Category updateCategory(CategoryDto categoryDto) {
+    public Optional<Category> updateCategory(CategoryDto categoryDto) {
         Category category = categoryRepository.findById(categoryDto.id()).orElse(null);
 
         if (category != null) {
             category.setDescription(categoryDto.description());
             category.setName(categoryDto.nom());
-
-            return categoryRepository.save(category);
+            return Optional.of(categoryRepository.save(category));
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 

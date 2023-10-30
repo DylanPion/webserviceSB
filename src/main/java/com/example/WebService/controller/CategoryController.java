@@ -1,6 +1,7 @@
 package com.example.WebService.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,9 +73,9 @@ public class CategoryController {
             return ResponseEntity.badRequest().build();
         }
 
-        Category updatedCategory = categoryService.updateCategory(categoryDto);
-        if (updatedCategory != null) {
-            return ResponseEntity.ok(updatedCategory);
+        Optional<Category> updatedCategoryOptional = categoryService.updateCategory(categoryDto);
+        if (updatedCategoryOptional.isPresent()) {
+            return ResponseEntity.ok(updatedCategoryOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }

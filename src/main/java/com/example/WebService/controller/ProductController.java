@@ -1,6 +1,7 @@
 package com.example.WebService.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -82,9 +83,10 @@ public class ProductController {
             return ResponseEntity.badRequest().build();
         }
 
-        Product updatedProduct = productService.updateProduct(productDto);
-        if (updatedProduct != null) {
-            return ResponseEntity.ok(updatedProduct);
+        Optional<Product> updatedProductOptional = productService.updateProduct(productDto);
+
+        if (updatedProductOptional.isPresent()) {
+            return ResponseEntity.ok(updatedProductOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }

@@ -1,6 +1,7 @@
 package com.example.WebService.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ public class ProductService {
         Product product = new Product();
         product.setDescription(productDto.description());
         product.setName(productDto.nom());
+        product.setPicture(productDto.picture());
         product.setCategory(category);
 
         return productRepository.save(product);
@@ -45,16 +47,16 @@ public class ProductService {
 
     // Modification d'un produit
 
-    public Product updateProduct(ProductDto productDto) {
+    public Optional<Product> updateProduct(ProductDto productDto) {
         Product product = productRepository.findById(productDto.id()).orElse(null);
 
         if (product != null) {
             product.setDescription(productDto.description());
             product.setName(productDto.nom());
-
-            return productRepository.save(product);
+            product.setPicture(productDto.picture());
+            return Optional.of(productRepository.save(product));
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 
